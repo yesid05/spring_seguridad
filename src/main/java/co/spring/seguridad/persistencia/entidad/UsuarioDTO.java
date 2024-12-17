@@ -1,8 +1,6 @@
 package co.spring.seguridad.persistencia.entidad;
 
-import java.net.PortUnreachableException;
 import java.util.Collection;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -43,8 +41,8 @@ public class UsuarioDTO implements UserDetails{
 		if(rol.getPermisos() == null)
 			return null;
 		
-		return rol.getPermisos().stream().
-				map(unRol -> {
+		return rol.getPermisos().stream()
+				.map(unRol -> {
 					String permiso = unRol.name();
 					return new SimpleGrantedAuthority(permiso);
 				})
