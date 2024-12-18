@@ -12,13 +12,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import co.spring.seguridad.error.Error;
-import co.spring.seguridad.persistencia.repositorio.IUsuarioRepositorio;
+import co.spring.seguridad.iservicio.IUsuarioServicio;
 
 @Configuration
 public class InjectorBeansSeguridad {
 	
 	@Autowired
-	private IUsuarioRepositorio usuarioRepositorio;
+	private IUsuarioServicio usuarioServicio;
 	
 	@Autowired
 	private AuthenticationConfiguration authenticationConfiguration;
@@ -37,7 +37,7 @@ public class InjectorBeansSeguridad {
 		DaoAuthenticationProvider estrategiaAutenticacion = new DaoAuthenticationProvider();
 		
 		estrategiaAutenticacion.setPasswordEncoder(passwordEncoder());
-		estrategiaAutenticacion.setUserDetailsService(null);
+		estrategiaAutenticacion.setUserDetailsService(userDetailsService());
 		
 		return estrategiaAutenticacion;
 		
@@ -51,7 +51,7 @@ public class InjectorBeansSeguridad {
 	@Bean
 	public UserDetailsService userDetailsService() {
 		return (unNombreUsuario) -> {
-			return usuarioRepositorio.buscarPorNombreUsuario(unNombreUsuario)
+			return usuarioServicio.buscarPorNombreUsuario(unNombreUsuario)
 					.orElseThrow(() -> new Error("Usuario no encontrado con el nombre de usuario "+unNombreUsuario,null));
 		};
 	}

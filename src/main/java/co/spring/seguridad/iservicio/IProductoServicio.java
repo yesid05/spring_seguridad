@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 
 import co.spring.seguridad.persistencia.entidad.ProductoDTO;
 import co.spring.seguridad.validar.ProductoValidar;
-import jakarta.validation.Valid;
 
 public interface IProductoServicio {
 	
