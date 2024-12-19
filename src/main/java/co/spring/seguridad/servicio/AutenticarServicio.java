@@ -1,6 +1,7 @@
 package co.spring.seguridad.servicio;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import co.spring.seguridad.error.Error;
@@ -16,6 +17,9 @@ public class AutenticarServicio implements IAutenticarServicio {
 	@Autowired
 	private IUsuarioRepositorio usuarioRepositorio;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	@Override
 	public UsuarioDTO crearCliente(ClienteValidar unCliente) {
 		
@@ -25,7 +29,7 @@ public class AutenticarServicio implements IAutenticarServicio {
 		UsuarioDTO usuario = new UsuarioDTO();
 		usuario.setNombre(unCliente.getNombre());
 		usuario.setNombreUsuario(unCliente.getNombreUsuario());
-		usuario.setContrasena(unCliente.getContrasena());
+		usuario.setContrasena(passwordEncoder.encode(unCliente.getContrasena()));
 		usuario.setRol(Rol.ROLE_CLIENTE);
 		
 		return usuarioRepositorio.save(usuario);

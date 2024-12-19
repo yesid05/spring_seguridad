@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.spring.seguridad.iservicio.IAutenticarServicio;
+import co.spring.seguridad.iservicio.IJwtServicio;
 import co.spring.seguridad.persistencia.entidad.UsuarioDTO;
 import co.spring.seguridad.validar.ClienteValidar;
 import jakarta.validation.Valid;
@@ -20,10 +21,17 @@ public class ClienteControlador {
 	@Autowired
 	private IAutenticarServicio autenticarServicio;
 	
+	@Autowired
+	private IJwtServicio jwtServicio;
+	
 	@PostMapping
 	public ResponseEntity<UsuarioDTO> registrar(@RequestBody @Valid ClienteValidar unCliente){
 		
 		UsuarioDTO usuario = autenticarServicio.crearCliente(unCliente);
+		
+		String jwtToken = jwtServicio.generarToken(usuario);
+		
+		usuario.setJwt(jwtToken);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
 		

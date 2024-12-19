@@ -33,6 +33,8 @@ public class UsuarioDTO implements UserDetails{
 	
 	@Enumerated(EnumType.STRING)
 	private Rol rol;
+	
+	private String jwt;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -103,6 +105,13 @@ public class UsuarioDTO implements UserDetails{
 		this.rol = rol;
 	}
 	
-	
+	public String getJwt() {
+		return jwt;
+	}
+
+	public void setJwt(String jwt) {
+		this.jwt = jwt;
+	}
+
 	
 }
