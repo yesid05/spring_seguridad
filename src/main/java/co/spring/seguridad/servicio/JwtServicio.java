@@ -21,9 +21,9 @@ public class JwtServicio implements IJwtServicio{
 	
 	@Value("${jwt.expira-en-minutos}")
 	public static long TIEMPO_DE_VENCIMIENTO = 30;
-
+	
 	@Value("${jwt.key}")
-	public static String KEY = "estaclave";
+	public static String KEY = "estaclaveesmuysegura_estaclaveesmuysegura";
 
 	@Override
 	public String generarToken(UserDetails unUsuario) {
