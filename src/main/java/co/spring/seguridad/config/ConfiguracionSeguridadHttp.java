@@ -28,6 +28,7 @@ public class ConfiguracionSeguridadHttp {
 				.authenticationProvider(authenticationProvider)
 				.authorizeHttpRequests(authConfig -> {
 					authConfig.requestMatchers(HttpMethod.POST,"/cliente").permitAll();
+					authConfig.requestMatchers(HttpMethod.POST,"/autenticar/**").permitAll();
 					
 					authConfig.anyRequest().authenticated();
 				})
