@@ -46,14 +46,12 @@ public class AutenticarServicio implements IAutenticarServicio {
 	@Override
 	public UsuarioDTO ingresar(IngresarValidar unIngreso) {
 		
-		
-		
 		Authentication authentication = new UsernamePasswordAuthenticationToken(unIngreso.getNombreUsuario(), unIngreso.getContrasena()); 
-		
-		System.out.println(authentication.toString());
 		
 		return (UsuarioDTO)authenticationManager.authenticate(authentication).getPrincipal();
 		
 	}
+	
+	
 
 }

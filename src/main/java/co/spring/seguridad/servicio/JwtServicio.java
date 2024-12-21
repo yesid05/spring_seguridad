@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import co.spring.seguridad.iservicio.IJwtServicio;
 import co.spring.seguridad.persistencia.entidad.UsuarioDTO;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -51,6 +52,14 @@ public class JwtServicio implements IJwtServicio{
 	
 	private Key generarCalaveSecreta() {		
 		return Keys.hmacShaKeyFor(KEY.getBytes());
+	}
+
+	@Override
+	public Claims validarToken(String unToken) {
+		
+		return Jwts.parserBuilder().setSigningKey(generarCalaveSecreta()).build()
+				.parseClaimsJws(unToken).getBody();
+		
 	}
 	
 }

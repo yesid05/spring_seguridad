@@ -14,6 +14,7 @@ import co.spring.seguridad.iservicio.IAutenticarServicio;
 import co.spring.seguridad.iservicio.IJwtServicio;
 import co.spring.seguridad.persistencia.entidad.UsuarioDTO;
 import co.spring.seguridad.validar.IngresarValidar;
+import co.spring.seguridad.validar.TokenValidar;
 import jakarta.validation.Valid;
 
 @RestController
@@ -40,6 +41,25 @@ public class AutenticarControlador {
 		
 		return ResponseEntity.ok(respuesta);
 		
+	}
+	
+	@PostMapping("/validar-token")
+	public ResponseEntity<Map<String, Object>> validarToken(@RequestBody @Valid TokenValidar unToken){
+		
+		Map<String, Object> respuesta = new HashMap<>();
+		
+		try {
+			
+			jwtServicio.validarToken(unToken.getToken());
+			
+			respuesta.put("esValido", Boolean.TRUE);
+					
+		} catch (Exception e) {			
+			respuesta.put("error", e.getLocalizedMessage());
+			respuesta.put("esValido", Boolean.FALSE);			
+		}
+		
+		return ResponseEntity.ok(respuesta);
 	}
 	
 }
