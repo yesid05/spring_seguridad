@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -16,6 +17,9 @@ public class ConfiguracionSeguridadHttp {
 
 	@Autowired
 	private AuthenticationProvider authenticationProvider;
+	
+	@Autowired
+	private JwtFiltroAutenticacion jwtFiltroAutenticacion;
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity unHttp) throws Exception {
@@ -26,6 +30,7 @@ public class ConfiguracionSeguridadHttp {
 					sesionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 				})
 				.authenticationProvider(authenticationProvider)
+				.addFilterBefore(jwtFiltroAutenticacion, UsernamePasswordAuthenticationFilter.class)
 				.authorizeHttpRequests(authConfig -> {
 					authConfig.requestMatchers(HttpMethod.POST,"/cliente").permitAll();
 					authConfig.requestMatchers(HttpMethod.POST,"/autenticar/**").permitAll();
