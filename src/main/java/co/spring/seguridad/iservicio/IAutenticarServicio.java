@@ -10,4 +10,5 @@ public interface IAutenticarServicio {
 	
 	UsuarioDTO ingresar(IngresarValidar unIngreso);
 	
+	String buscarPerfil();
 }

@@ -2,6 +2,7 @@ package co.spring.seguridad.controlador;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.spring.seguridad.iservicio.IAutenticarServicio;
 import co.spring.seguridad.iservicio.IJwtServicio;
+import co.spring.seguridad.iservicio.IUsuarioServicio;
 import co.spring.seguridad.persistencia.entidad.UsuarioDTO;
 import co.spring.seguridad.validar.IngresarValidar;
 import co.spring.seguridad.validar.TokenValidar;
@@ -26,6 +28,9 @@ public class AutenticarControlador {
 	
 	@Autowired
 	private IJwtServicio jwtServicio;
+	
+	@Autowired
+	private IUsuarioServicio usuarioServicio;
 	
 	@PostMapping("/ingresar")
 	public ResponseEntity<Map<String, Object>> ingresar(@RequestBody @Valid IngresarValidar unIngreso){
@@ -60,6 +65,17 @@ public class AutenticarControlador {
 		}
 		
 		return ResponseEntity.ok(respuesta);
+	}
+	
+	@PostMapping("/perfil")
+	public ResponseEntity<UsuarioDTO> buscarPerfil(){
+		HashMap<String, Object> respuesta = new HashMap<>();
+		
+		String unUsuario = autenticarServicio.buscarPerfil();
+		
+		Optional<UsuarioDTO> unUsuarioDTO = usuarioServicio.buscarPorNombreUsuario(unUsuario);
+		
+		return ResponseEntity.ok(unUsuarioDTO.get());
 	}
 	
 }
